@@ -110,7 +110,7 @@ export const portfolioContent = {
 
   // Social links and contact
   social: {
-    phone: "+63",
+    phone: "+63 906 395 1218",
     email: "rxboyboy@gmail.com",
     github: "https://github.com/RosBoyboy",
     facebook: "https://www.facebook.com/share/185QR6NPDT/",

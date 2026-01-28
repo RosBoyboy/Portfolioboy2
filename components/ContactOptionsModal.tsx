@@ -34,6 +34,22 @@ export default function ContactOptionsModal({
     };
   }, [isOpen, onClose]);
 
+  // Download phone number as text file
+  const downloadPhoneFile = () => {
+    const phoneNumber = portfolioContent.social.phone;
+    const content = `Contact Phone Number\n\n${phoneNumber}`;
+    const element = document.createElement("a");
+    element.setAttribute(
+      "href",
+      "data:text/plain;charset=utf-8," + encodeURIComponent(content)
+    );
+    element.setAttribute("download", "contact-phone.txt");
+    element.style.display = "none";
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  };
+
   if (!isOpen) return null;
 
   const contactMethods = [
@@ -93,7 +109,7 @@ export default function ContactOptionsModal({
       />
 
       {/* Modal */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+      <div className="fixed inset-0 z-50 flex items-top justify-center p-4 pointer-events-none pb-24">
         <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl shadow-2xl max-w-md w-full border border-slate-700 animate-in fade-in zoom-in-95 duration-300 pointer-events-auto">
           {/* Header */}
           <div className="border-b border-slate-700 px-6 py-4 flex justify-between items-center">
@@ -122,30 +138,56 @@ export default function ContactOptionsModal({
           {/* Contact Methods */}
           <div className="p-6 space-y-4">
             {contactMethods.map((method, index) => (
-              <a
+              <div
                 key={index}
-                href={method.href}
-                target={method.label === "Facebook" ? "_blank" : undefined}
-                rel={method.label === "Facebook" ? "noopener noreferrer" : undefined}
-                className="flex items-start gap-4 p-4 bg-slate-700/30 hover:bg-slate-700/50 rounded-lg border border-slate-600/50 hover:border-indigo-500/50 transition-all cursor-pointer group"
+                onClick={method.label === "Phone" ? downloadPhoneFile : undefined}
+                className={method.label === "Phone" ? "flex items-start gap-4 p-4 bg-slate-700/30 hover:bg-slate-700/50 rounded-lg border border-slate-600/50 hover:border-indigo-500/50 transition-all cursor-pointer group" : undefined}
               >
-                <div className={`${method.color} flex-shrink-0 mt-1`}>
-                  {method.icon}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-white font-semibold mb-1 group-hover:text-indigo-300 transition-colors">
-                    {method.label}
-                  </h3>
-                  <p className="text-slate-300 text-sm break-all">
-                    {method.value}
-                  </p>
-                </div>
-                <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <svg className="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </div>
-              </a>
+                {method.label === "Phone" ? (
+                  <>
+                    <div className={`${method.color} flex-shrink-0 mt-1`}>
+                      {method.icon}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-white font-semibold mb-1 group-hover:text-indigo-300 transition-colors">
+                        {method.label}
+                      </h3>
+                      <p className="text-slate-300 text-sm break-all">
+                        {method.value}
+                      </p>
+                    </div>
+                    <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <svg className="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </>
+                ) : (
+                  <a
+                    href={method.href}
+                    target={method.label === "Facebook" ? "_blank" : undefined}
+                    rel={method.label === "Facebook" ? "noopener noreferrer" : undefined}
+                    className="w-full flex items-start gap-4 p-4 bg-slate-700/30 hover:bg-slate-700/50 rounded-lg border border-slate-600/50 hover:border-indigo-500/50 transition-all cursor-pointer group"
+                  >
+                    <div className={`${method.color} flex-shrink-0 mt-1`}>
+                      {method.icon}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-white font-semibold mb-1 group-hover:text-indigo-300 transition-colors">
+                        {method.label}
+                      </h3>
+                      <p className="text-slate-300 text-sm break-all">
+                        {method.value}
+                      </p>
+                    </div>
+                    <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <svg className="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </a>
+                )}
+              </div>
             ))}
           </div>
 

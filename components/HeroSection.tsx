@@ -7,9 +7,12 @@
 
 import { portfolioContent } from "@/data/content";
 import Image from "next/image";
+import { useState } from "react";
+import ContactOptionsModal from "./ContactOptionsModal";
 
 export default function HeroSection() {
   const { name, title, statement, ctaText, ctaLink } = portfolioContent.hero;
+  const [isContactOptionsOpen, setIsContactOptionsOpen] = useState(false);
 
   return (
     <section
@@ -66,12 +69,12 @@ export default function HeroSection() {
               >
                 {ctaText}
               </a>
-              <a
-                href={`mailto:${portfolioContent.social.email}`}
+              <button
+                onClick={() => setIsContactOptionsOpen(true)}
                 className="px-8 py-3 border-2 border-slate-400 text-slate-300 rounded-lg font-semibold hover:border-indigo-500 hover:text-indigo-400 transition-smooth"
               >
                 Contact Me
-              </a>
+              </button>
             </div>
 
             {/* Social Links */}
@@ -128,6 +131,12 @@ export default function HeroSection() {
           />
         </svg>
       </div>
+
+      {/* Contact Options Modal */}
+      <ContactOptionsModal
+        isOpen={isContactOptionsOpen}
+        onClose={() => setIsContactOptionsOpen(false)}
+      />
     </section>
   );
 }
