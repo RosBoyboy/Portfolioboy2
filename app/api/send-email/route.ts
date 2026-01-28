@@ -14,6 +14,15 @@ const transporter = nodemailer.createTransport({
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if environment variables are set
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+      console.error("Email environment variables not configured");
+      return NextResponse.json(
+        { error: "Email service not configured. Please contact support." },
+        { status: 500 }
+      );
+    }
+
     const { firstName, lastName, email, contactNumber, message } =
       await request.json();
 
